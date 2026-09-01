@@ -262,3 +262,31 @@ The planned implementation stages are:
 9. Build the FastAPI REST API.
 10. Perform A/B testing on 100 sample users.
 11. Document results and final implementation.
+
+## Evaluation Metrics
+
+The recommendation engine will be evaluated using ranking-based recommendation metrics.
+
+### Precision@5
+
+Precision@5 measures how many of the top 5 recommended courses are relevant to the learner.
+
+**Formula:**
+
+Precision@5 = Relevant courses in Top 5 / 5
+
+The project acceptance target is:
+
+**Precision@5 ≥ 0.60**
+
+### Recall@5
+
+Recall@5 measures how many of the relevant courses available to the learner are successfully included in the top 5 recommendations.
+
+### Hit Rate@5
+
+Hit Rate@5 measures whether at least one relevant course appears among the top 5 recommendations.
+
+### A/B Testing
+
+The recommendation system will also be evaluated through an A/B test using 100 sample users. The test will compare the proposed recommendation approach against a baseline to measure recommendation effectiveness and user engagement.
