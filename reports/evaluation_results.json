@@ -1,0 +1,60 @@
+{
+  "students": 1000,
+  "subjects": 10,
+  "engagement_records": 600,
+  "warm_start_student": "STU-00001",
+  "warm_start_recommendations": [
+    {
+      "subject": "Data Science",
+      "recommendation_score": 0.43533333333333335
+    },
+    {
+      "subject": "English Grammar",
+      "recommendation_score": 0.40893617021276596
+    },
+    {
+      "subject": "Design Thinking",
+      "recommendation_score": 0.4072558139534884
+    },
+    {
+      "subject": "Mathematics",
+      "recommendation_score": 0.40473267326732676
+    },
+    {
+      "subject": "Chemistry",
+      "recommendation_score": 0.3999803921568627
+    }
+  ],
+  "cold_start_recommendations": [
+    {
+      "subject": "English Grammar",
+      "recommendation_score": 0.40893617021276596
+    },
+    {
+      "subject": "Data Science",
+      "recommendation_score": 0.4086666666666666
+    },
+    {
+      "subject": "Design Thinking",
+      "recommendation_score": 0.4072558139534884
+    },
+    {
+      "subject": "Mathematics",
+      "recommendation_score": 0.40473267326732676
+    },
+    {
+      "subject": "Chemistry",
+      "recommendation_score": 0.3999803921568627
+    }
+  ],
+  "checks": {
+    "warm_start_returns_five": true,
+    "cold_start_returns_five": true,
+    "warm_start_has_no_duplicate_subjects": true,
+    "cold_start_has_no_duplicate_subjects": true,
+    "recommendation_scores_are_finite": true
+  },
+  "all_checks_passed": true,
+  "precision_at_5": null,
+  "precision_note": "Not calculated: the provided test cases label at-risk students, not relevant courses for recommendation."
+}

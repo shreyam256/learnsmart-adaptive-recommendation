@@ -1,29 +1,70 @@
+
+from pathlib import Path
+import json
 import pandas as pd
 
-from config import TRAINING_DATA_PATH
+PROJECT_DIR = Path(__file__).resolve().parent.parent
+DATA_DIR = PROJECT_DIR / "data"
+PROCESSED_DIR = DATA_DIR / "processed"
+
+PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
 
 
-def load_training_data() -> pd.DataFrame:
-    """Load the provided training CSV dataset."""
-    return pd.read_csv(TRAINING_DATA_PATH)
+def main():
+    performance_path = DATA_DIR / "aiml_student_performance.csv"
+    engagement_path = DATA_DIR / "aiml_content_engagement.csv"
+    tests_path = DATA_DIR / "aiml_edtech_tests.json"
 
+    # Load datasets
+    performance = pd.read_csv(performance_path)
+    engagement = pd.read_csv(engagement_path)
 
-def validate_training_data(data: pd.DataFrame) -> None:
-    """Validate the basic structure of the training dataset."""
-    required_columns = {"text", "intent", "confidence"}
+    with open(tests_path, "r", encoding="utf-8") as file:
+        tests = json.load(file)
 
-    missing_columns = required_columns - set(data.columns)
+    # Inspect original data
+    print("\nSTUDENT PERFORMANCE")
+    print("Shape:", performance.shape)
+    print("Columns:", performance.columns.tolist())
+    print(performance.head())
 
-    if missing_columns:
-        raise ValueError(
-            f"Missing required columns: {sorted(missing_columns)}"
+    print("\nCONTENT ENGAGEMENT")
+    print("Shape:", engagement.shape)
+    print("Columns:", engagement.columns.tolist())
+    print(engagement.head())
+
+    print("\nTEST CASES")
+    print("Type:", type(tests).__name__)
+    print("Number of cases:", len(tests))
+
+    # Standardize column names and remove duplicate rows
+    for dataframe in [performance, engagement]:
+        dataframe.columns = (
+            dataframe.columns.str.strip()
+            .str.lower()
+            .str.replace(r"[^a-z0-9]+", "_", regex=True)
+            .str.strip("_")
         )
+        dataframe.drop_duplicates(inplace=True)
+
+    # Save processed datasets
+    performance.to_csv(
+        PROCESSED_DIR / "student_performance_clean.csv",
+        index=False
+    )
+    engagement.to_csv(
+        PROCESSED_DIR / "content_engagement_clean.csv",
+        index=False
+    )
+
+    with open(
+        PROCESSED_DIR / "edtech_tests.json", "w", encoding="utf-8"
+    ) as file:
+        json.dump(tests, file, indent=2, ensure_ascii=False)
+
+    print("\nPipeline completed successfully.")
+    print("Processed files saved in:", PROCESSED_DIR)
 
 
 if __name__ == "__main__":
-    training_data = load_training_data()
-    validate_training_data(training_data)
-
-    print("Training data loaded successfully.")
-    print(f"Rows: {len(training_data)}")
-    print(f"Columns: {training_data.columns.tolist()}")
+    main()
